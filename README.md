@@ -23,8 +23,8 @@ npm install
 ```
 CREATE DATABASE db_name;
 ```
-
-    Es necesario además crear las siguientes variables de entorno en archivo .env en la raíz de pay-system-api:
+    Es necesario además crear las siguientes variables de entorno en archivo .env en 
+    la raíz de pay-system-api:
 ```
 DATABASE_URL="postgresql://user:password@host:port/db_name",
 PAYMENT_SERVICE_URL="http://localhost:5000/process",
