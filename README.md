@@ -1,4 +1,4 @@
-# Sistema de Pagos – Prueba Técnica Backend
+# Sistema de Pagos – Backend
 
 ## Requisitos
 - Node.js ≥ 18
@@ -17,21 +17,19 @@ npm install
 
 2. Variables de entorno (.env):
 
-DATABASE_URL="postgresql://user:password@host:port/db_name"
-PAYMENT_SERVICE_URL="http://localhost:5000/process"
+DATABASE_URL="postgresql://user:password@host:port/db_name",
+PAYMENT_SERVICE_URL="http://localhost:5000/process",
 PORT=3000
 
-3. Migraciones y Prisma:
+3. Ejecutar migraciones y generar cliente ORM:
 
-npx prisma migrate dev --name init
+npx prisma migrate dev --name migration_name
 npx prisma generate
 
 4. Levantar servidor en modo desarrollo:
 
 npm run dev
-> http://localhost:3000
-
----
+http://localhost:3000
 
 ## Microservicio de pagos (Python / Flask)
 
@@ -39,12 +37,14 @@ npm run dev
 
 cd payment-service
 python -m venv venv
-venv\Scripts\activate      # Windows
-# source venv/bin/activate # Mac/Linux
+# venv\Scripts\activate      # Windows
+# source venv/bin/activate   # Mac/Linux
 
 2. Instalar dependencias:
 
+```
 pip install -r requirements.txt
+```
 
 3. Levantar servicio:
 
@@ -53,62 +53,23 @@ python app.py
 
 ---
 
-## Endpoints principales
+## Colección de Postman
 
-### Usuarios
-- Crear usuario: POST /users
-```json
-{
-  "name": "example",
-  "email": "example@example.com",
-  "password": "supersecreto"
-}
-```
-### Tarjetas
-- Asociar tarjeta a un usuario: POST /cards
-```json
-{
-  "userId": 1,
-  "cardNumber": "1234567891234567",
-  "holderName": "Jorge Castillo",
-  "expirationDate": "12/28", //MM/YY
-  "cvv": "123"
-}
-```
+Dentro del repositorio se incluye una colección lista para probar todos los endpoints:
 
-### Pagos
-- Realizar un pago: POST /payments
-```json
-{
-  "userId": 1,
-  "cardId": 1,
-  "amount": 200.50
-}
-```
+postman/payment_system.postman_collection.json
 
-### Historial
-- Ver historial de pago de un usuario: GET /payments/user/id
-```json
-[
-    {
-        "id": 1,
-        "userId": 1,
-        "cardId": 1,
-        "amount": {
-            "amount": 150.75
-        },
-        "status": "approved",
-        "createdAt": "2026-02-05T05:53:54.821Z"
-    },
-    {
-        "id": 2,
-        "userId": 1,
-        "cardId": 1,
-        "amount": {
-            "amount": 150.75
-        },
-        "status": "approved",
-        "createdAt": "2026-02-05T05:55:09.289Z"
-    }
-]
-```
+### Cómo usarla:
+
+1. Abrir Postman  
+2. Click en **Import**  
+3. Seleccionar el archivo:  
+   postman/payment-system-collection.json  
+4. Asegurarse de que la API y el servicio Python estén corriendo
+5. Crear entorno base_url y asignarle el valor http://localhost:3000
+6. Ejecutar los requests en el siguiente orden recomendado:
+
+    - Create User  
+    - Assign Card  
+    - Create Payment
+    - Get Payment History 
