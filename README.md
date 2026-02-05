@@ -28,7 +28,6 @@ CREATE DATABASE db_name;
 ```
 DATABASE_URL="postgresql://user:password@host:port/db_name",
 PAYMENT_SERVICE_URL="http://localhost:5000/process",
-PORT=3000
 ```
 
 4. Ejecutar migraciones y generar cliente ORM:
