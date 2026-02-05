@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  cards     Card[]
+  payments  Payment[]
+}
+
+model Card {
+  id             Int       @id @default(autoincrement())
+  cardNumber     String
+  cardHolderName String
+  expirationDate String
+  cvv            String
+  userId         Int
+  createdAt      DateTime  @default(now())
+  user           User      @relation(fields: [userId], references: [id])
+  payments       Payment[]
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  status    String   @default("pending")
+  userId    Int
+  cardId    Int
+  createdAt DateTime @default(now())
+  card      Card     @relation(fields: [cardId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
